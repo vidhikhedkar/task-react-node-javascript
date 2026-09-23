@@ -336,13 +336,13 @@ The registration form contains:
   <img src="./screenshots/Student_Dashboard.png" width="900" alt="SecureStudent Dashboard">
 </p>
 
-### 👨 Student Registration
+### Student Registration
 
 <p align="center">
   <img src="./screenshots/Student_Registration.png" width="900" alt="Student Registration Form">
 </p>
 
-### 📋 Student Edit From
+###  Student Edit From
 
 <p align="center">
   <img src="./screenshots/Edit-Student.png" width="900" alt="Student Directory">
