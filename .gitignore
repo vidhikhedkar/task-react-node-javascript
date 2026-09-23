@@ -9,7 +9,6 @@ server/.env
 client/dist/
 server/dist/
 
-screenshots/
 
 *.log
 npm-debug.log*
