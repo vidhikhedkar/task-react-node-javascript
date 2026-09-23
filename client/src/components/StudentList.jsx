@@ -522,10 +522,6 @@ export default function StudentList({ onEdit, refreshTrigger, triggerRefresh, })
                   {students.length} students
                 </span>
 
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-                  Student data protected with encryption
-                </span>
               </div>
             )}
         </div>
