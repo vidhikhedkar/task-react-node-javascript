@@ -1,6 +1,6 @@
-# Secure Student Management System
+#  Secure Student Management System
 
-A full-stack Student Management System built using **React.js, Node.js, Express.js, and MongoDB**, with a two-level AES encryption mechanism for protecting student data during transmission and storage.
+A full-stack Student Management System built using **React.js, Node.js, Express.js, and MongoDB**, featuring a **two-level AES encryption mechanism** for protecting student data during transmission and storage.
 
 ##  Features
 
@@ -15,9 +15,13 @@ A full-stack Student Management System built using **React.js, Node.js, Express.
 * Responsive React.js UI
 * Frontend and backend separated into independent applications
 * Environment-based configuration using `.env`
+* Secure authentication and protected student management workflow
 
+---
 
-##  Project Structure
+#  Project Structure
+
+```text
 task-react-node-javascript/
 │
 ├── client/
@@ -47,9 +51,18 @@ task-react-node-javascript/
 │   │   └── server.js
 │   └── package.json
 │
+├── screenshots/
+│   ├── login_page.png
+│   ├── Student_Dashboard.png
+│   ├── Student_Registration.png
+│   └── Edit-Student.png
+│
 ├── .gitignore
-└── README.md
+├── README.md
+└── ...
+```
 
+---
 
 #  Tech Stack
 
@@ -61,6 +74,7 @@ task-react-node-javascript/
 * Tailwind CSS
 * Axios
 * CryptoJS
+* Framer Motion
 
 ## Backend
 
@@ -77,13 +91,14 @@ task-react-node-javascript/
 * MongoDB
 * MongoDB Atlas
 
-## Development Tools
+## Development & Deployment
 
 * Git
 * GitHub
 * VS Code
 * Render
 
+---
 
 #  Setup Instructions
 
@@ -96,7 +111,7 @@ cd task-react-node-javascript
 
 ---
 
-# 🔹 Backend Setup
+#  Backend Setup
 
 Open a terminal and navigate to the server folder:
 
@@ -117,7 +132,7 @@ FRONTEND_SECRET_KEY=your_frontend_encryption_key
 BACKEND_SECRET_KEY=your_backend_encryption_key
 ```
 
-Start the backend:
+### Start the Backend
 
 ```bash
 npm start
@@ -129,15 +144,19 @@ The backend will run on:
 http://localhost:8080
 ```
 
-Health check:
+### Health Check
+
+Open:
 
 ```text
 http://localhost:8080/health
 ```
 
+A successful response confirms that the backend server is running.
 
+---
 
-# Frontend Setup
+#  Frontend Setup
 
 Open another terminal:
 
@@ -156,17 +175,19 @@ VITE_FRONTEND_SECRET_KEY=your_frontend_encryption_key
 
 The value of:
 
-```text
+```env
 VITE_FRONTEND_SECRET_KEY
 ```
 
-must match the backend:
+must match:
 
-```text
+```env
 FRONTEND_SECRET_KEY
 ```
 
-Start the frontend:
+configured in the backend.
+
+### Start the Frontend
 
 ```bash
 npm run dev
@@ -180,39 +201,65 @@ http://localhost:5173
 
 ---
 
+#  Environment Variables
+
+For security reasons, actual `.env` files should **not be committed to GitHub**.
+
+The repository should contain `.env.example` files instead.
+
+### `server/.env.example`
+
+```env
+PORT=8080
+MONGO_URI=your_mongodb_connection_string
+FRONTEND_SECRET_KEY=your_frontend_encryption_key
+BACKEND_SECRET_KEY=your_backend_encryption_key
+```
+
+### `client/.env.example`
+
+```env
+VITE_API_URL=http://localhost:8080/api
+VITE_FRONTEND_SECRET_KEY=your_frontend_encryption_key
+```
+
+Create your actual `.env` files locally using these examples.
+
+---
+
 #  How Encryption Is Implemented
 
-This project demonstrates **two-level AES encryption**.
+This project demonstrates a **two-level AES encryption flow**.
 
-The purpose of the implementation is to demonstrate how data can be encrypted at both the frontend and backend layers before being stored in MongoDB.
+The purpose is to demonstrate encryption at both the frontend and backend layers before data is stored in MongoDB.
 
 ## Encryption Flow
 
-
+```text
 User enters student information
-              ↓
-        React Frontend
-              ↓
-      AES Encryption
-        Layer 1
-              ↓
-       HTTP / API Request
-              ↓
-      Node.js + Express
-              ↓
-      AES Encryption
-        Layer 2
-              ↓
+             ↓
+       React Frontend
+             ↓
+       AES Encryption
+          Layer 1
+             ↓
+        HTTP / API
+             ↓
+     Node.js + Express
+             ↓
+       AES Encryption
+          Layer 2
+             ↓
           MongoDB
+```
 
+The sensitive student data is therefore protected by two encryption layers before being stored in the database.
 
-The stored data therefore contains the backend-encrypted version of the frontend-encrypted data.
-
-
+---
 
 ## Layer 1 — Frontend Encryption
 
-Before sending student information to the backend, the React application encrypts the required fields using AES.
+Before sending sensitive student information to the backend, the React application encrypts the required fields using AES.
 
 Example:
 
@@ -233,7 +280,7 @@ VITE_FRONTEND_SECRET_KEY=your_frontend_encryption_key
 
 ## Layer 2 — Backend Encryption
 
-When the encrypted data reaches the Node.js backend, the backend encrypts the data again using a separate backend key.
+When the encrypted data reaches the Node.js backend, the backend applies a second AES encryption layer using a separate backend key.
 
 ```js
 const encryptedData = CryptoJS.AES.encrypt(
@@ -248,15 +295,15 @@ The backend key is stored in:
 BACKEND_SECRET_KEY=your_backend_encryption_key
 ```
 
-The backend key is **different from the frontend key**.
+The backend encryption key is **different from the frontend encryption key**.
 
 ---
 
-# Decryption Flow
+#  Decryption Flow
 
 When student information is requested:
 
-
+```text
 MongoDB
    ↓
 Backend decrypts Layer 2
@@ -266,34 +313,41 @@ Frontend receives Layer 1 encrypted data
 Frontend decrypts Layer 1
    ↓
 Readable student information
+```
 
+The backend first removes its own encryption layer.
 
-The backend first decrypts its own encryption layer.
+The frontend then decrypts the remaining frontend encryption layer before displaying the student information.
 
-The frontend then decrypts the remaining frontend encryption layer.
+---
 
+#  Login Flow
 
+The login process follows this flow:
 
-# Login Flow
-
-For login:
-
-
+```text
 User enters Email + Password
-              ↓
-Frontend sends login request
-              ↓
+             ↓
+Frontend encrypts password
+             ↓
+Backend receives login request
+             ↓
 Backend finds student by email
-              ↓
-Backend decrypts stored password
-              ↓
-Password is compared
-              ↓
+             ↓
+Backend decrypts stored Layer 2
+             ↓
+Stored Layer 1 password is decrypted
+             ↓
+Incoming password is decrypted
+             ↓
+Plaintext passwords are compared
+             ↓
 Login successful / rejected
+```
 
+> **Assignment Note:** AES is used for the password because the assignment specifically requires AES encryption. In a production authentication system, passwords should normally be stored using a one-way password hashing algorithm such as **bcrypt or Argon2**, rather than reversible encryption.
 
-> **Assignment note:** AES is used for the password because the assignment specifically requires AES encryption. In a production authentication system, passwords should normally be stored using a one-way password hashing algorithm such as **bcrypt or Argon2**, rather than reversible encryption.
-
+---
 
 #  API Endpoints
 
@@ -305,7 +359,7 @@ Login successful / rejected
 | PUT    | `/api/student/:id` | Update student         |
 | DELETE | `/api/student/:id` | Delete student         |
 
-
+---
 
 #  Student Registration Fields
 
@@ -320,36 +374,39 @@ The registration form contains:
 * Course Enrolled
 * Password
 
-
+---
 
 #  Screenshots
 
-###  Login
+##  Login
 
 <p align="center">
   <img src="./screenshots/login_page.png" width="900" alt="SecureStudent Login">
 </p>
 
-###  Dashboard
+##  Dashboard
 
 <p align="center">
   <img src="./screenshots/Student_Dashboard.png" width="900" alt="SecureStudent Dashboard">
 </p>
 
-### Student Registration
+##  Student Registration
 
 <p align="center">
   <img src="./screenshots/Student_Registration.png" width="900" alt="Student Registration Form">
 </p>
 
-###  Student Edit From
+##  Student Edit Form
 
 <p align="center">
-  <img src="./screenshots/Edit-Student.png" width="900" alt="Student Directory">
+  <img src="./screenshots/Edit-Student.png" width="900" alt="Edit Student Form">
 </p>
+
+---
 
 
 #  Author
 
 **Vidhi Khedkar**
+
 MERN Stack Developer
