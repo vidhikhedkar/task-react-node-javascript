@@ -322,41 +322,34 @@ The registration form contains:
 
 
 
-# 📸 Screenshots
+#  Screenshots
 
-Screenshots can be added here to demonstrate the application UI.
+###  Login
 
-### Login Page
+<p align="center">
+  <img src="./screenshots/login_page.png" width="900" alt="SecureStudent Login">
+</p>
 
-Add screenshot:
+###  Dashboard
 
-```text
-![Login Page](./screenshots/login.png)
-```
+<p align="center">
+  <img src="./screenshots/Student_Dashboard.png" width="900" alt="SecureStudent Dashboard">
+</p>
 
-### Student Registration
+### 👨 Student Registration
 
-```text
-![Student Registration](./screenshots/register.png)
-```
+<p align="center">
+  <img src="./screenshots/Student_Registration.png" width="900" alt="Student Registration Form">
+</p>
 
-### Student Dashboard
+### 📋 Student Edit From
 
-```text
-![Student Dashboard](./screenshots/dashboard.png)
-```
-
-### Student List
-
-```text
-![Student List](./screenshots/student-list.png)
-```
-
-> Create a `screenshots` folder in the project root and place the corresponding images inside it.
+<p align="center">
+  <img src="./screenshots/Edit-Student.png" width="900" alt="Student Directory">
+</p>
 
 
 #  Author
 
 **Vidhi Khedkar**
-
 MERN Stack Developer
