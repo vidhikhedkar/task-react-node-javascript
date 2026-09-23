@@ -2,25 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  UserPlus,
-  UserCheck,
-  Mail,
-  Phone,
-  Calendar,
-  MapPin,
-  BookOpen,
-  Lock,
-  Eye,
-  EyeOff,
-  Loader2,
-  X,
-  User,
-  CheckCircle2,
-  AlertCircle,
-  ShieldCheck,
-  Sparkles,
+  UserPlus, UserCheck, Mail, Phone, Calendar, MapPin, BookOpen, Lock, Eye, EyeOff, Loader2, X,
+  User, CheckCircle2, AlertCircle, Sparkles,
 } from "lucide-react";
-
 import { encryptFrontend } from "../utils/crypto";
 
 const API_URL =
@@ -98,41 +82,28 @@ export default function StudentForm({
     setShowPassword(false);
   };
 
-  // =========================================================
-  // INPUT VALIDATION
-  // =========================================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     let nextValue = value;
-
-    // Name - letters and spaces only
     if (name === "fullName") {
       nextValue = value.replace(/[^a-zA-Z\s]/g, "");
     }
-
-    // Phone - numbers only
     if (name === "phoneNumber") {
       nextValue = value.replace(/\D/g, "").slice(0, 15);
     }
-
-    // Email
     if (name === "email") {
       nextValue = value.replace(/[<>"'`;\\\/\[\]{}?]/g, "");
     }
 
-    // Password
     if (name === "password") {
       nextValue = value.replace(/[<>"'`;\\\/\[\]{}?]/g, "");
     }
 
-    // Course
     if (name === "courseEnrolled") {
       nextValue = value.replace(/[<>"'`;\\\/\[\]{}?]/g, "");
     }
 
-    // Address
     if (name === "address") {
       nextValue = value.replace(/[<>"'`;\\\/\[\]{}?]/g, "");
     }
@@ -149,10 +120,6 @@ export default function StudentForm({
       });
     }
   };
-
-  // =========================================================
-  // VALIDATION
-  // =========================================================
 
   const validateForm = () => {
     const name = formData.fullName.trim();
@@ -228,15 +195,11 @@ export default function StudentForm({
     return null;
   };
 
-  // =========================================================
-  // SUBMIT
-  // =========================================================
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const validationError = validateForm();
-
     if (validationError) {
       setMessage({
         type: "error",
@@ -244,9 +207,7 @@ export default function StudentForm({
       });
       return;
     }
-
     setLoading(true);
-
     setMessage({
       type: "",
       text: "",
@@ -255,19 +216,14 @@ export default function StudentForm({
     try {
       const encryptedPayload = {
         fullName: encryptFrontend(formData.fullName.trim()),
-
         email: formData.email.trim().toLowerCase(),
-
         phoneNumber: encryptFrontend(
           formData.phoneNumber.trim()
         ),
 
         dateOfBirth: encryptFrontend(formData.dateOfBirth),
-
         gender: formData.gender,
-
         address: encryptFrontend(formData.address.trim()),
-
         courseEnrolled: encryptFrontend(
           formData.courseEnrolled.trim()
         ),
@@ -315,7 +271,6 @@ export default function StudentForm({
       }
     } catch (error) {
       console.error("Student operation error:", error);
-
       setMessage({
         type: "error",
         text:
@@ -340,10 +295,9 @@ export default function StudentForm({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
-      className="mx-auto w-full max-w-5xl"
+      className="mx-auto w-full max-w-9xl"
     >
       <div className="relative overflow-hidden rounded-[28px] border border-slate-800 bg-[#0b1120] shadow-2xl shadow-black/30">
-        {/* Decorative background */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -left-32 -top-32 h-80 w-80 rounded-full bg-indigo-600/10 blur-3xl" />
           <div className="absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
@@ -362,27 +316,19 @@ export default function StudentForm({
           />
         </div>
 
-        {/* =====================================================
-            HEADER
-        ===================================================== */}
-
         <div className="relative border-b border-slate-800/80 px-6 py-7 sm:px-8">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
             <div className="flex items-center gap-4">
               <motion.div
                 initial={{ scale: 0.8, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
-                className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-600/20"
+                className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-600/20"
               >
                 {selectedStudent ? (
                   <UserCheck className="h-7 w-7" />
                 ) : (
                   <UserPlus className="h-7 w-7" />
                 )}
-
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 ring-4 ring-[#0b1120]">
-                  <ShieldCheck className="h-3 w-3 text-white" />
-                </span>
               </motion.div>
 
               <div>
@@ -412,7 +358,7 @@ export default function StudentForm({
                 whileTap={{ scale: 0.97 }}
                 type="button"
                 onClick={handleCancel}
-                className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs font-semibold text-slate-300 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
+                className="flex items-center justify-center gap-2 rounded-xl cursor-pointer border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs font-semibold text-slate-300 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400"
               >
                 <X className="h-4 w-4" />
                 Cancel
@@ -420,10 +366,6 @@ export default function StudentForm({
             )}
           </div>
         </div>
-
-        {/* =====================================================
-            MESSAGE
-        ===================================================== */}
 
         <AnimatePresence mode="wait">
           {message.text && (
@@ -433,11 +375,9 @@ export default function StudentForm({
               exit={{ opacity: 0, y: -10, height: 0 }}
               className="relative px-6 pt-5 sm:px-8"
             >
-              <div
-                className={`flex items-center gap-3 rounded-2xl border px-4 py-3.5 text-sm ${
-                  message.type === "success"
-                    ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
-                    : "border-red-500/20 bg-red-500/10 text-red-300"
+              <div className={`flex items-center gap-3 rounded-2xl border px-4 py-3.5 text-sm ${message.type === "success"
+                  ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300"
+                  : "border-red-500/20 bg-red-500/10 text-red-300"
                 }`}
               >
                 {message.type === "success" ? (
@@ -452,15 +392,10 @@ export default function StudentForm({
           )}
         </AnimatePresence>
 
-        {/* =====================================================
-            FORM
-        ===================================================== */}
-
         <form
           onSubmit={handleSubmit}
           className="relative space-y-8 p-6 sm:p-8"
         >
-          {/* Personal Information */}
           <section>
             <div className="mb-5 flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400">
@@ -479,7 +414,6 @@ export default function StudentForm({
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
-              {/* FULL NAME */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -503,13 +437,8 @@ export default function StudentForm({
                     className="w-full rounded-xl border border-slate-700/80 bg-slate-900 px-10 py-3.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-600 hover:border-slate-600 focus:border-indigo-500 focus:bg-slate-900 focus:ring-4 focus:ring-indigo-500/10"
                   />
                 </div>
-
-                <p className="mt-1.5 text-[10px] text-slate-600">
-                  Letters and spaces only
-                </p>
               </motion.div>
 
-              {/* EMAIL */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -534,13 +463,8 @@ export default function StudentForm({
                     className="w-full rounded-xl border border-slate-700/80 bg-slate-900 px-10 py-3.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-600 hover:border-slate-600 focus:border-indigo-500 focus:bg-slate-900 focus:ring-4 focus:ring-indigo-500/10 disabled:cursor-not-allowed disabled:bg-slate-950 disabled:text-slate-500 disabled:opacity-70"
                   />
                 </div>
-
-                <p className="mt-1.5 text-[10px] text-slate-600">
-                  Example: student@example.com
-                </p>
               </motion.div>
 
-              {/* PHONE */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -565,13 +489,8 @@ export default function StudentForm({
                     className="w-full rounded-xl border border-slate-700/80 bg-slate-900 px-10 py-3.5 text-sm text-slate-100 outline-none transition placeholder:text-slate-600 hover:border-slate-600 focus:border-indigo-500 focus:bg-slate-900 focus:ring-4 focus:ring-indigo-500/10"
                   />
                 </div>
-
-                <p className="mt-1.5 text-[10px] text-slate-600">
-                  10–15 digits only
-                </p>
               </motion.div>
 
-              {/* DOB */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -590,12 +509,11 @@ export default function StudentForm({
                     required
                     value={formData.dateOfBirth}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-700/80 bg-slate-900 px-10 py-3.5 text-sm text-slate-100 outline-none transition hover:border-slate-600 focus:border-indigo-500 focus:bg-slate-900 focus:ring-4 focus:ring-indigo-500/10"
+                    onClick={(e) => e.currentTarget.showPicker?.()}
+                    className="w-full cursor-pointer rounded-xl border border-slate-700/80 bg-slate-900 px-10 py-3.5 text-sm text-slate-100 outline-none transition hover:border-slate-600 focus:border-indigo-500 focus:bg-slate-900 focus:ring-4 focus:ring-indigo-500/10"
                   />
                 </div>
               </motion.div>
-
-              {/* GENDER */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -623,7 +541,6 @@ export default function StudentForm({
                 </select>
               </motion.div>
 
-              {/* COURSE */}
               <motion.div
                 variants={fieldVariants}
                 initial="hidden"
@@ -650,7 +567,6 @@ export default function StudentForm({
             </div>
           </section>
 
-          {/* ADDRESS */}
           <section className="border-t border-slate-800/80 pt-7">
             <div className="mb-4">
               <h3 className="text-sm font-bold text-white">
@@ -676,7 +592,6 @@ export default function StudentForm({
             </div>
           </section>
 
-          {/* PASSWORD */}
           <section className="border-t border-slate-800/80 pt-7">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
@@ -733,23 +648,8 @@ export default function StudentForm({
                 )}
               </button>
             </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className="rounded-lg border border-slate-800 bg-slate-900 px-2.5 py-1 text-[10px] text-slate-500">
-                6+ characters
-              </span>
-
-              <span className="rounded-lg border border-slate-800 bg-slate-900 px-2.5 py-1 text-[10px] text-slate-500">
-                Special symbols blocked
-              </span>
-
-              <span className="rounded-lg border border-emerald-500/10 bg-emerald-500/5 px-2.5 py-1 text-[10px] text-emerald-500">
-                Encrypted
-              </span>
-            </div>
           </section>
 
-          {/* SUBMIT */}
           <div className="border-t border-slate-800/80 pt-7">
             <motion.button
               whileHover={{
@@ -760,10 +660,9 @@ export default function StudentForm({
               }}
               type="submit"
               disabled={loading}
-              className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-4 text-sm font-bold text-white shadow-xl shadow-indigo-600/20 transition hover:from-indigo-500 hover:to-violet-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-linear-to-r from-indigo-600 to-violet-600 py-4 text-sm font-bold text-white shadow-xl shadow-indigo-600/20 transition hover:from-indigo-500 hover:to-violet-500 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
             >
               <span className="absolute inset-0 bg-white/5 opacity-0 transition hover:opacity-100" />
-
               {loading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
@@ -781,11 +680,6 @@ export default function StudentForm({
                 </>
               )}
             </motion.button>
-
-            <div className="mt-4 flex items-center justify-center gap-2 text-[10px] text-slate-600">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-              Protected with 2-level client & server encryption
-            </div>
           </div>
         </form>
       </div>

@@ -4,7 +4,6 @@ const FRONTEND_SECRET_KEY =
   import.meta.env.VITE_FRONTEND_SECRET_KEY;
 
 
-// Encrypt data on frontend
 export const encryptFrontend = (data) => {
   if (!data) return '';
 
@@ -15,7 +14,6 @@ export const encryptFrontend = (data) => {
 };
 
 
-// Decrypt data on frontend
 export const decryptFrontend = (ciphertext) => {
   if (!ciphertext) return '';
 

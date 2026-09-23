@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  LogIn,
-  AlertCircle,
-  Loader2,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import {Mail,Lock,Eye,EyeOff,LogIn,AlertCircle,Loader2,ShieldCheck,Sparkles,} from "lucide-react";
 import { encryptFrontend } from "../utils/crypto";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
 
 export default function LoginForm({ onLoginSuccess }) {
   const [formData, setFormData] = useState({
@@ -27,25 +18,15 @@ export default function LoginForm({ onLoginSuccess }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // =========================
-  // EMAIL VALIDATION
-  // =========================
+
   const handleEmailChange = (e) => {
     let value = e.target.value;
-
-    // Remove spaces and all characters except valid email characters
     value = value.replace(/[^a-zA-Z0-9._%+\-@]/g, "");
-
-    // Allow only ONE @
     const atIndex = value.indexOf("@");
-
     if (atIndex !== -1) {
       const beforeAt = value.slice(0, atIndex);
       let afterAt = value.slice(atIndex + 1);
-
-      // Remove any additional @
       afterAt = afterAt.replace(/@/g, "");
-
       value = beforeAt + "@" + afterAt;
     }
 
@@ -53,69 +34,47 @@ export default function LoginForm({ onLoginSuccess }) {
       ...prev,
       email: value,
     }));
-
     setError("");
   };
 
-  // =========================
-  // PASSWORD VALIDATION
-  // =========================
+
   const handlePasswordChange = (e) => {
     let value = e.target.value;
-
-    // Block < > ? / \ { } [ ]
     value = value.replace(/[<>?\/\\{}\[\]]/g, "");
-
     setFormData((prev) => ({
       ...prev,
       password: value,
     }));
-
     setError("");
   };
 
-  // =========================
-  // SUBMIT
-  // =========================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     const email = formData.email.trim().toLowerCase();
     const password = formData.password;
-
     if (!email || !password) {
       setError("Please enter your email and password.");
       return;
     }
-
-    // Strict email validation
     const emailRegex =
       /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9.-]*[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/;
-
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address.");
       return;
     }
-
-    // Extra protection against multiple @
     if ((email.match(/@/g) || []).length !== 1) {
       setError("Please enter a valid email address.");
       return;
     }
-
     setLoading(true);
-
     try {
       const encryptedPassword = encryptFrontend(password);
-
       const res = await axios.post(`${API_URL}/login`, {
         email,
         password: encryptedPassword,
       });
-
-      console.log("Login response:", res.data);
-
       setLoading(false);
       onLoginSuccess();
     } catch (err) {
@@ -123,9 +82,7 @@ export default function LoginForm({ onLoginSuccess }) {
         "Login error:",
         err.response?.data || err
       );
-
       setLoading(false);
-
       setError(
         err.response?.data?.error ||
           "Login failed. Please check your credentials."
@@ -135,13 +92,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
   return (
     <div className="relative flex min-h-[calc(100vh-80px)] items-center justify-center overflow-hidden bg-[#070A13] px-4 py-12">
-
-      {/* =========================================
-          BACKGROUND EFFECTS
-      ========================================= */}
-
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-
         <motion.div
           animate={{
             x: [0, 80, -40, 0],
@@ -165,25 +116,18 @@ export default function LoginForm({ onLoginSuccess }) {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute -bottom-40 -right-32 h-[450px] w-[450px] rounded-full bg-violet-600/20 blur-[110px]"
+          className="absolute -bottom-40 -right-32 h-113 w-113 rounded-full bg-violet-600/20 blur-[110px]"
         />
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.07),transparent_45%)]" />
-
-        {/* Grid */}
-        <div
-          className="absolute inset-0 opacity-[0.035]"
+        <div className="absolute inset-0 opacity-[0.035]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
             backgroundSize: "45px 45px",
           }}
         />
       </div>
 
-      {/* =========================================
-          LOGIN CARD
-      ========================================= */}
 
       <motion.div
         initial={{
@@ -200,23 +144,14 @@ export default function LoginForm({ onLoginSuccess }) {
           duration: 0.6,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="relative z-10 w-full max-w-[440px]"
+        className="relative z-10 w-full max-w-110"
       >
+        <div className="absolute -inset-1 rounded-[30px] bg-linear-to-r from-indigo-500/30 via-violet-500/20 to-cyan-500/30 opacity-70 blur-xl" />
+        <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0D111C]/90 p-8 shadow-2xl shadow-black/40 backdrop-blur-2xl sm:p-10">
 
-        {/* Glow behind card */}
-        <div className="absolute -inset-1 rounded-[30px] bg-gradient-to-r from-indigo-500/30 via-violet-500/20 to-cyan-500/30 opacity-70 blur-xl" />
-
-        <div className="relative overflow-hidden rounded-[28px] border border-white/[0.10] bg-[#0D111C]/90 p-8 shadow-2xl shadow-black/40 backdrop-blur-2xl sm:p-10">
-
-          {/* Top shine */}
-          <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/70 to-transparent" />
-
-          {/* =====================================
-              BRAND ICON
-          ===================================== */}
+          <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-linear-to-r from-transparent via-indigo-400/70 to-transparent" />
 
           <div className="flex justify-center">
-
             <motion.div
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -228,20 +163,13 @@ export default function LoginForm({ onLoginSuccess }) {
               className="relative"
             >
               <div className="absolute inset-0 rounded-2xl bg-indigo-500/40 blur-xl" />
-
-              <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500 to-violet-600 shadow-xl shadow-indigo-500/20">
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border border-indigo-400/20 bg-linear-to-br from-indigo-500 to-violet-600 shadow-xl shadow-indigo-500/20">
                 <ShieldCheck className="h-8 w-8 text-white" />
               </div>
             </motion.div>
-
           </div>
 
-          {/* =====================================
-              HEADER
-          ===================================== */}
-
           <div className="mt-6 text-center">
-
             <div className="mb-2 flex items-center justify-center gap-2">
               <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
                 Welcome Back
@@ -265,12 +193,7 @@ export default function LoginForm({ onLoginSuccess }) {
             <p className="mx-auto max-w-xs text-sm leading-6 text-slate-400">
               Sign in to manage your student account securely.
             </p>
-
           </div>
-
-          {/* =====================================
-              ERROR
-          ===================================== */}
 
           <AnimatePresence>
             {error && (
@@ -292,12 +215,9 @@ export default function LoginForm({ onLoginSuccess }) {
                 }}
                 className="mt-6 overflow-hidden"
               >
-                <div className="flex items-start gap-3 rounded-2xl border border-red-500/20 bg-red-500/[0.08] p-3.5 text-sm text-red-300">
-
+                <div className="flex items-start gap-3 rounded-2xl border border-red-500/20 bg-red-500/8 p-4 text-sm text-red-300">
                   <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
-
                   <span>{error}</span>
-
                 </div>
               </motion.div>
             )}
@@ -311,18 +231,14 @@ export default function LoginForm({ onLoginSuccess }) {
             onSubmit={handleSubmit}
             className="mt-7 space-y-5"
           >
-
-            {/* EMAIL */}
-
             <div>
               <label className="mb-2 block text-sm font-medium text-slate-300">
                 Email address
               </label>
 
               <div className="group relative">
-
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                  <Mail className="h-[18px] w-[18px] text-slate-500 transition-colors group-focus-within:text-indigo-400" />
+                  <Mail className="h-5 w-5 text-slate-500 transition-colors group-focus-within:text-indigo-400" />
                 </div>
 
                 <input
@@ -333,13 +249,9 @@ export default function LoginForm({ onLoginSuccess }) {
                   value={formData.email}
                   onChange={handleEmailChange}
                   spellCheck="false"
-                  className="h-13 w-full rounded-2xl border border-white/[0.09] bg-white/[0.035] pl-11 pr-4 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/[0.15] focus:border-indigo-500/60 focus:bg-white/[0.05] focus:ring-4 focus:ring-indigo-500/10"
-                />
-
+                  className="h-13 w-full rounded-2xl border border-white/9 bg-white/[0.035] pl-11 pr-4 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/15 focus:border-indigo-500/60 focus:bg-white/5 focus:ring-4 focus:ring-indigo-500/10"/>
               </div>
             </div>
-
-            {/* PASSWORD */}
 
             <div>
               <label className="mb-2 block text-sm font-medium text-slate-300">
@@ -347,9 +259,8 @@ export default function LoginForm({ onLoginSuccess }) {
               </label>
 
               <div className="group relative">
-
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                  <Lock className="h-[18px] w-[18px] text-slate-500 transition-colors group-focus-within:text-indigo-400" />
+                  <Lock className="h-5 w-5 text-slate-500 transition-colors group-focus-within:text-indigo-400" />
                 </div>
 
                 <input
@@ -363,7 +274,7 @@ export default function LoginForm({ onLoginSuccess }) {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handlePasswordChange}
-                  className="h-13 w-full rounded-2xl border border-white/[0.09] bg-white/[0.035] pl-11 pr-12 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/[0.15] focus:border-indigo-500/60 focus:bg-white/[0.05] focus:ring-4 focus:ring-indigo-500/10"
+                  className="h-13 w-full rounded-2xl border border-white/9 bg-white/[0.035] pl-11 pr-12 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/15 focus:border-indigo-500/60 focus:bg-white/5 focus:ring-4 focus:ring-indigo-500/10"
                 />
 
                 <button
@@ -379,18 +290,14 @@ export default function LoginForm({ onLoginSuccess }) {
                   }
                 >
                   {showPassword ? (
-                    <EyeOff className="h-[18px] w-[18px]" />
+                    <EyeOff className="h-4.5 w-4.5" />
                   ) : (
-                    <Eye className="h-[18px] w-[18px]" />
+                    <Eye className="h-4.5 w-4.5" />
                   )}
                 </button>
-
               </div>
             </div>
 
-            {/* =================================
-                LOGIN BUTTON
-            ================================= */}
 
             <motion.button
               whileHover={{
@@ -401,11 +308,9 @@ export default function LoginForm({ onLoginSuccess }) {
               }}
               type="submit"
               disabled={loading}
-              className="group relative mt-2 flex h-13 w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-[length:200%_100%] text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition-all duration-500 hover:bg-[position:100%_0] hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60"
+              className="group relative mt-2 flex h-13 w-full items-center justify-center overflow-hidden rounded-2xl bg-linear-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-size-[200%_100%] text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition-all duration-500 hover:bg-position-[100%_0] hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60"
             >
-
               <span className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100" />
-
               {loading ? (
                 <Loader2 className="relative h-5 w-5 animate-spin" />
               ) : (
@@ -414,31 +319,19 @@ export default function LoginForm({ onLoginSuccess }) {
                   Sign In
                 </span>
               )}
-
             </motion.button>
-
           </form>
 
-          {/* =====================================
-              SECURITY FOOTER
-          ===================================== */}
-
-          <div className="mt-7 flex items-center justify-center gap-2 border-t border-white/[0.06] pt-6">
-
+          <div className="mt-7 flex items-center justify-center gap-2 border-t border-white/6 pt-6">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
-
             <span className="text-xs text-slate-500">
               Secured with 2-Level Encryption
             </span>
-
             <span className="h-1 w-1 rounded-full bg-slate-700" />
-
             <span className="text-xs text-slate-500">
               Secure Login
             </span>
-
           </div>
-
         </div>
       </motion.div>
     </div>

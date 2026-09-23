@@ -11,7 +11,7 @@ if (!BACKEND_SECRET_KEY) {
   throw new Error("BACKEND_SECRET_KEY is missing in server .env");
 }
 
-// Layer 1
+
 const encryptFrontend = (data) => {
   if (data === undefined || data === null) return "";
 
@@ -32,7 +32,8 @@ const decryptFrontend = (ciphertext) => {
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-// Layer 2
+
+
 const encryptBackend = (data) => {
   if (data === undefined || data === null) return "";
 
@@ -53,9 +54,4 @@ const decryptBackend = (ciphertext) => {
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-module.exports = {
-  encryptFrontend,
-  decryptFrontend,
-  encryptBackend,
-  decryptBackend,
-};
+module.exports = {encryptFrontend,decryptFrontend,encryptBackend,decryptBackend,};
