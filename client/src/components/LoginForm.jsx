@@ -322,16 +322,7 @@ export default function LoginForm({ onLoginSuccess }) {
             </motion.button>
           </form>
 
-          <div className="mt-7 flex items-center justify-center gap-2 border-t border-white/6 pt-6">
-            <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            <span className="text-xs text-slate-500">
-              Secured with 2-Level Encryption
-            </span>
-            <span className="h-1 w-1 rounded-full bg-slate-700" />
-            <span className="text-xs text-slate-500">
-              Secure Login
-            </span>
-          </div>
+         
         </div>
       </motion.div>
     </div>
