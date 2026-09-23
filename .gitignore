@@ -11,6 +11,7 @@ server/.env
 # Build files
 client/dist/
 server/dist/
+screenshots/
 
 # Logs
 *.log
