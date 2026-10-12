@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import {Mail,Lock,Eye,EyeOff,LogIn,AlertCircle,Loader2,ShieldCheck,Sparkles,} from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle, Loader2, ShieldCheck, Sparkles, UserPlus, } from "lucide-react";
 import { encryptFrontend } from "../utils/crypto";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
-
-export default function LoginForm({ onLoginSuccess }) {
+export default function LoginForm({ onLoginSuccess, onSignUpClick }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,7 +16,6 @@ export default function LoginForm({ onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const handleEmailChange = (e) => {
     let value = e.target.value;
@@ -37,7 +35,6 @@ export default function LoginForm({ onLoginSuccess }) {
     setError("");
   };
 
-
   const handlePasswordChange = (e) => {
     let value = e.target.value;
     value = value.replace(/[<>?\/\\{}\[\]]/g, "");
@@ -47,7 +44,6 @@ export default function LoginForm({ onLoginSuccess }) {
     }));
     setError("");
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,13 +81,13 @@ export default function LoginForm({ onLoginSuccess }) {
       setLoading(false);
       setError(
         err.response?.data?.error ||
-          "Login failed. Please check your credentials."
+        "Login failed. Please check your credentials."
       );
     }
   };
 
   return (
-    <div className="relative flex min-h-[calc(100vh-80px)] items-center justify-center overflow-hidden bg-[#070A13] px-4 py-12">
+    <div className="relative flex min-h-[calc(100vh-80px)] items-center justify-center overflow-hidden bg-[#070A13] px-4 py-8">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           animate={{
@@ -127,7 +123,6 @@ export default function LoginForm({ onLoginSuccess }) {
           }}
         />
       </div>
-
 
       <motion.div
         initial={{
@@ -223,10 +218,6 @@ export default function LoginForm({ onLoginSuccess }) {
             )}
           </AnimatePresence>
 
-          {/* =====================================
-              FORM
-          ===================================== */}
-
           <form
             onSubmit={handleSubmit}
             className="mt-7 space-y-5"
@@ -249,7 +240,7 @@ export default function LoginForm({ onLoginSuccess }) {
                   value={formData.email}
                   onChange={handleEmailChange}
                   spellCheck="false"
-                  className="h-13 w-full rounded-2xl border border-white/9 bg-white/[0.035] pl-11 pr-4 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/15 focus:border-indigo-500/60 focus:bg-white/5 focus:ring-4 focus:ring-indigo-500/10"/>
+                  className="h-13 w-full rounded-2xl border border-white/9 bg-white/[0.035] pl-11 pr-4 text-sm text-white outline-none transition-all placeholder:text-slate-600 hover:border-white/15 focus:border-indigo-500/60 focus:bg-white/5 focus:ring-4 focus:ring-indigo-500/10" />
               </div>
             </div>
 
@@ -282,7 +273,7 @@ export default function LoginForm({ onLoginSuccess }) {
                   onClick={() =>
                     setShowPassword((prev) => !prev)
                   }
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 transition-colors hover:text-indigo-400"
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-500 transition-colors hover:text-indigo-400 cursor-pointer"
                   aria-label={
                     showPassword
                       ? "Hide password"
@@ -298,7 +289,6 @@ export default function LoginForm({ onLoginSuccess }) {
               </div>
             </div>
 
-
             <motion.button
               whileHover={{
                 scale: loading ? 1 : 1.015,
@@ -308,21 +298,31 @@ export default function LoginForm({ onLoginSuccess }) {
               }}
               type="submit"
               disabled={loading}
-              className="group relative mt-2 flex h-13 w-full items-center justify-center overflow-hidden rounded-2xl bg-linear-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-size-[200%_100%] text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition-all duration-500 hover:bg-position-[100%_0] hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60"
+              className="group relative mt-2 flex h-13 w-full items-center justify-center overflow-hidden rounded-2xl bg-linear-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-size-[200%_100%] text-sm font-semibold text-white shadow-xl shadow-indigo-600/20 transition-all duration-500 hover:bg-position-[100%_0] hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
             >
               <span className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100" />
               {loading ? (
                 <Loader2 className="relative h-5 w-5 animate-spin" />
               ) : (
-                <span className="relative flex items-center gap-2">
+                <span className="relative flex items-center gap-2 cursor-pointer">
                   <LogIn className="h-4 w-4" />
                   Sign In
                 </span>
               )}
             </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.98 }}
+              type="button"
+              onClick={onSignUpClick}
+              className="flex h-13 w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/4 text-sm font-semibold text-slate-300 shadow-lg transition-all duration-300 hover:border-white/20 hover:bg-white/8 hover:text-white cursor-pointer"
+            >
+              <UserPlus className="h-4 w-4 text-indigo-400" />
+              Create an Account
+            </motion.button>
           </form>
 
-         
         </div>
       </motion.div>
     </div>

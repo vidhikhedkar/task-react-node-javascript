@@ -13,7 +13,7 @@ const safeDecrypt = (value, fieldName = "") => {
   if (!value) return "";
   const stringValue = String(value);
   if (!stringValue.startsWith("U2FsdGVkX1")) {
-    console.log(`${fieldName} is already plain text`);
+    // console.log(`${fieldName} is already plain text`);
     return stringValue;
   }
   try {

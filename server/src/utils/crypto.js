@@ -11,47 +11,37 @@ if (!BACKEND_SECRET_KEY) {
   throw new Error("BACKEND_SECRET_KEY is missing in server .env");
 }
 
-
 const encryptFrontend = (data) => {
   if (data === undefined || data === null) return "";
-
-  return CryptoJS.AES.encrypt(
-    String(data),
-    FRONTEND_SECRET_KEY
-  ).toString();
+  return CryptoJS.AES.encrypt(String(data), FRONTEND_SECRET_KEY).toString();
 };
 
 const decryptFrontend = (ciphertext) => {
   if (!ciphertext) return "";
-
-  const bytes = CryptoJS.AES.decrypt(
-    ciphertext,
-    FRONTEND_SECRET_KEY
-  );
-
+  const bytes = CryptoJS.AES.decrypt(ciphertext, FRONTEND_SECRET_KEY);
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-
-
 const encryptBackend = (data) => {
   if (data === undefined || data === null) return "";
-
-  return CryptoJS.AES.encrypt(
-    String(data),
-    BACKEND_SECRET_KEY
-  ).toString();
+  return CryptoJS.AES.encrypt(String(data), BACKEND_SECRET_KEY).toString();
 };
 
 const decryptBackend = (ciphertext) => {
   if (!ciphertext) return "";
-
-  const bytes = CryptoJS.AES.decrypt(
-    ciphertext,
-    BACKEND_SECRET_KEY
-  );
-
+  const bytes = CryptoJS.AES.decrypt(ciphertext, BACKEND_SECRET_KEY);
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-module.exports = {encryptFrontend,decryptFrontend,encryptBackend,decryptBackend,};
+const hashEmail = (email) => {
+  if (!email) return "";
+  return CryptoJS.HmacSHA256(email.trim().toLowerCase(), BACKEND_SECRET_KEY).toString();
+};
+
+module.exports = {
+  encryptFrontend,
+  decryptFrontend,
+  encryptBackend,
+  decryptBackend,
+  hashEmail,
+};

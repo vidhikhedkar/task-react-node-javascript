@@ -639,7 +639,7 @@ export default function StudentForm({
                 onClick={() =>
                   setShowPassword((prev) => !prev)
                 }
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-500 transition hover:bg-slate-800 hover:text-indigo-400"
+                className="absolute right-3.5 cursor-pointer top-1/2 -translate-y-1/2 rounded-lg p-1 text-slate-500 transition hover:bg-slate-800 hover:text-indigo-400"
               >
                 {showPassword ? (
                   <EyeOff className="h-4 w-4" />
