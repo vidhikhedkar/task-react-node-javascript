@@ -381,7 +381,7 @@ const handleSignupSuccess = () => {
       </main>
 
 
-      <footer className="mx-auto w-full max-w-7xl px-3 pb-4 sm:px-5 sm:pb-5 lg:px-6 xl:px-8">
+      <footer className="mx-auto container pb-4 sm:pb-5">
         <div className="flex flex-col items-center justify-between gap-2 border-t border-slate-200/70 pt-4 text-center sm:flex-row sm:pt-5 sm:text-left dark:border-slate-800">
           <p className="text-[10px] font-medium text-slate-400">
             SecureStudent Management System
