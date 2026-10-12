@@ -246,7 +246,7 @@ const handleSignupSuccess = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="min-w-0 space-y-5 sm:space-y-6"
+              className="container space-y-5 sm:space-y-6"
             >
               <motion.section
                 initial={{ opacity: 0, y: 20 }}
